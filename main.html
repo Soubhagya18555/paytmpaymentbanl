@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paytm Main Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #1b3a85;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 30px;
+        }
+
+        .logout-icon {
+            cursor: pointer;
+            height: 25px;
+        }
+
+        .curved-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .curved-box h2 {
+            color: #1b3a85;
+            margin-bottom: 0.5rem;
+        }
+
+        .curved-box .account-number {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .balance-section {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-toggle {
+            background-color: #FFE500;
+            color: #1b3a85;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .transaction-section {
+            margin-top: 2rem;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .transaction-section h2 {
+            color: #1b3a85;
+            margin-bottom: 1rem;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-amount {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .transaction-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="Paytm_payments_bank.svg.png" alt="Paytm Payments Bank Logo" class="logo">
+        </div>
+        <img src="logout.png" alt="Logout Icon" class="logout-icon">
+    </div>
+
+    <div class="curved-box">
+        <h2>UMESH CHANDRA SAHOO</h2>
+        <div class="account-number">xxxxxxxxxxxx1867</div>
+        <div class="balance-section">Balance: ₹<span id="balance">29000</span></div>
+        <button class="balance-toggle" onclick="toggleBalance()">Hide Balance</button>
+    </div>
+
+    <div class="transaction-section">
+        <h2>Recent Transactions</h2>
+        <div class="transaction-item">
+            <div>
+                <div>UCO_MBANKING</div>
+                <div class="transaction-date">10 Feb 2025</div>
+            </div>
+            <div class="transaction-amount" style="color: green;">+₹29,000</div>
+        </div>
+        <div class="transaction-item">
+            <div>
+                <div>SBI_NACH</div>
+                <div class="transaction-date">03 Feb 2025</div>
+            </div>
+            <div class="transaction-amount">-₹29,700</div>
+        </div>
+        <div class="transaction-item">
+            <div>
+                <div>Auto_Mpay</div>
+                <div class="transaction-date">30 Jan 2025</div>
+            </div>
+            <div class="transaction-amount" style="color: green;">+₹27,000</div>
+        </div>
+    </div>
+
+    <script>
+        // Initial balance setup
+        let currentBalance = 29000;
+
+        // Update balance daily without transaction history
+        function creditDailyAmount() {
+            currentBalance += 21;
+            updateBalanceDisplay();
+        }
+
+        // Update the balance display on the UI
+        function updateBalanceDisplay() {
+            document.getElementById('balance').textContent = currentBalance;
+        }
+
+        // Automatically credit ₹21 daily
+        setInterval(creditDailyAmount, 24 * 60 * 60 * 1000); // One day interval
+
+        function toggleBalance() {
+            const balanceElement = document.getElementById('balance');
+            const button = document.querySelector('.balance-toggle');
+
+            if (balanceElement.textContent === 'XXXX') {
+                balanceElement.textContent = currentBalance;
+                button.textContent = 'Hide Balance';
+            } else {
+                balanceElement.textContent = 'XXXX';
+                button.textContent = 'Show Balance';
+            }
+        }
+
+        // Call the balance update once when the page loads
+        updateBalanceDisplay();
+    </script>
+</body>
+</html>

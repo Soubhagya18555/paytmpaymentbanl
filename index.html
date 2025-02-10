@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paytm Payment Bank</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #1F51FF; /* Paytm's blue color */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container {
+            margin-top: 80px;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+        }
+
+        .login-container {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .password-input {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 24px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            letter-spacing: 10px;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .key {
+            background: #f5f5f5;
+            border: none;
+            padding: 20px;
+            font-size: 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .key:hover {
+            background: #e0e0e0;
+        }
+
+        .header {
+            color: white;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <!-- Replace with actual Paytm logo path -->
+        <img src="Paytm_payments_bank.svg.png" alt="Paytm Logo" class="logo">
+    </div>
+
+    <div class="login-container">
+        <h2 class="header" style="color: #1F51FF;">Enter MPIN</h2>
+        
+        <div class="password-input">
+            <input type="password" id="mpin" maxlength="4" placeholder="****">
+        </div>
+
+        <div class="keypad">
+            <button class="key" onclick="addNumber('1')">1</button>
+            <button class="key" onclick="addNumber('2')">2</button>
+            <button class="key" onclick="addNumber('3')">3</button>
+            <button class="key" onclick="addNumber('4')">4</button>
+            <button class="key" onclick="addNumber('5')">5</button>
+            <button class="key" onclick="addNumber('6')">6</button>
+            <button class="key" onclick="addNumber('7')">7</button>
+            <button class="key" onclick="addNumber('8')">8</button>
+            <button class="key" onclick="addNumber('9')">9</button>
+            <button class="key" onclick="clearInput()">⌫</button>
+            <button class="key" onclick="addNumber('0')">0</button>
+            <button class="key" style="background: #1F51FF; color: white;" onclick="verifyMPIN()">↵</button>
+        </div>
+    </div>
+
+    <script>
+        let enteredMPIN = '';
+
+        function addNumber(num) {
+            if (enteredMPIN.length < 4) {
+                enteredMPIN += num;
+                updateInputDisplay();
+            }
+        }
+
+        function clearInput() {
+            enteredMPIN = '';
+            updateInputDisplay();
+        }
+
+        function updateInputDisplay() {
+            document.getElementById('mpin').value = '*'.repeat(enteredMPIN.length);
+        }
+
+        function verifyMPIN() {
+            if (enteredMPIN === '9078') {
+                window.location.href = 'main.html';
+            } else {
+                alert('Invalid MPIN! Please try again.');
+                clearInput();
+            }
+        }
+
+        // Handle keyboard input
+        document.addEventListener('keydown', (event) => {
+            if (event.key >= '0' && event.key <= '9') {
+                addNumber(event.key);
+            } else if (event.key === 'Backspace') {
+                clearInput();
+            } else if (event.key === 'Enter') {
+                verifyMPIN();
+            }
+        });
+    </script>
+</body>
+</html>

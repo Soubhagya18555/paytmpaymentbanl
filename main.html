@@ -121,7 +121,7 @@
     <div class="curved-box">
         <h2>UMESH CHANDRA SAHOO</h2>
         <div class="account-number">xxxxxxxxxxxx1867</div>
-        <div class="balance-section">Balance: ₹<span id="balance">29000</span></div>
+        <div class="balance-section">Balance: ₹<span id="balance">29021.34</span></div>
         <button class="balance-toggle" onclick="toggleBalance()">Hide Balance</button>
     </div>
 
@@ -152,28 +152,54 @@
 
     <script>
         // Initial balance setup
-        let currentBalance = 29000;
+        let currentBalance = 29021.34;
 
-        // Update balance daily without transaction history
-        function creditDailyAmount() {
-            currentBalance += 21;
-            updateBalanceDisplay();
-        }
-
-        // Update the balance display on the UI
+        // Function to update balance display
         function updateBalanceDisplay() {
-            document.getElementById('balance').textContent = currentBalance;
+            document.getElementById('balance').textContent = currentBalance.toFixed(2);
         }
 
-        // Automatically credit ₹21 daily
-        setInterval(creditDailyAmount, 24 * 60 * 60 * 1000); // One day interval
+        // Function to credit ₹21.34 once per day at 12 AM IST
+        function creditAtMidnight() {
+            const now = new Date();
+            const utcOffset = now.getTimezoneOffset(); // Get the UTC offset in minutes
+            const IST_OFFSET = 330; // IST is UTC + 5 hours 30 minutes
 
+            // Adjust for IST by adding 330 minutes to the current UTC time
+            now.setMinutes(now.getMinutes() + utcOffset + IST_OFFSET);
+
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            // Check if it's exactly 12:00 AM IST and the credit hasn't been done today
+            const lastCredited = localStorage.getItem('lastCredited'); // Get last credited date from localStorage
+            const today = now.toISOString().split('T')[0]; // Get today's date (YYYY-MM-DD)
+
+            if (hours === 0 && minutes === 0 && lastCredited !== today) {
+                currentBalance += 21.34; // Add ₹21.34
+                updateBalanceDisplay();
+                localStorage.setItem('lastCredited', today); // Store today's date in localStorage
+            }
+        }
+
+        // Function to check for midnight credit
+        function checkMidnightCredit() {
+            setInterval(creditAtMidnight, 60000); // Check every minute
+        }
+
+        // Call the balance update once when the page loads
+        updateBalanceDisplay();
+
+        // Start checking for midnight every minute
+        checkMidnightCredit();
+
+        // Toggle balance visibility
         function toggleBalance() {
             const balanceElement = document.getElementById('balance');
             const button = document.querySelector('.balance-toggle');
 
             if (balanceElement.textContent === 'XXXX') {
-                balanceElement.textContent = currentBalance;
+                balanceElement.textContent = currentBalance.toFixed(2);
                 button.textContent = 'Hide Balance';
             } else {
                 balanceElement.textContent = 'XXXX';
@@ -181,8 +207,18 @@
             }
         }
 
-        // Call the balance update once when the page loads
-        updateBalanceDisplay();
+        // Check if the page is loaded for the first time, and update balance if needed
+        window.onload = function() {
+            const lastCredited = localStorage.getItem('lastCredited');
+            const now = new Date();
+            const today = now.toISOString().split('T')[0]; // Get today's date (YYYY-MM-DD)
+
+            if (lastCredited !== today) {
+                currentBalance += 21.34; // Credit ₹21.34 if a new day has begun
+                localStorage.setItem('lastCredited', today); // Update last credited date
+                updateBalanceDisplay();
+            }
+        };
     </script>
 </body>
 </html>
